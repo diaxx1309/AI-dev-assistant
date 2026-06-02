@@ -64,14 +64,23 @@ def sanitize_text_input(text: str) -> str:
     return text
 
 
+ALLOWED_LANGUAGES={
+  "python","javascript","java","cpp","c","php","rust","kotlin","txt","bash","html","csharp","go","swift","ruby","css",
+}
+
 def sanitize_language_hint(language: str | None) -> str | None:
-    """Normalize optional language hint from API clients."""
+    """Normalize and validate optional language hint from API clients."""
     if language is None:
         return None
-    language = sanitize_text_input(language.strip())
+    language = sanitize_text_input(language.strip().lower())
     if not language:
         return None
-    return language[:32]
+    if language not in ALLOWED_LANGUAGES:
+      raise ValueError(
+        f"Unsupported language'{language}'."
+        f"Allowed: {sorted(ALLOWED_LANGUAGES)}"
+      )
+      return language
 
 
 def sanitize_result_json(text: str) -> str:
