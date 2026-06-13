@@ -65,19 +65,33 @@ def sanitize_text_input(text: str) -> str:
 
 
 def sanitize_language_hint(language: str | None) -> str | None:
-    """Normalize optional language hint from API clients."""
+    """
+    Normalize optional language hint from API clients.
+    Sanitize and validate against allowlist of supported languages.
+    """
     if language is None:
         return None
+    # Step 1: Sanitize the input
     language = sanitize_text_input(language.strip())
     if not language:
         return None
+    # Step 2: Normalize to lowercase
+    language = language.lower()
+    # Step 3: Define allowlist 
+    ALLOWED_LANGUAGES = {
+        "python", "javascript", "java", "cpp", "c++",
+        "rust", "php", "kotlin", "typescript", "ts"
+    }  
+    # Step 4: Validate against allowlist
+    if language not in ALLOWED_LANGUAGES:
+        return None  # Return None if not in allowlist, NOT raise error
+     # Step 5: Return sanitized language
     return language[:32]
 
 
 def sanitize_result_json(text: str) -> str:
     """
     Sanitize persisted analysis payloads before DB/cache storage.
-
     Strips null bytes and ANSI sequences, validates JSON structure, and
     returns the original string (formatting preserved) for plain-text logs.
     """
