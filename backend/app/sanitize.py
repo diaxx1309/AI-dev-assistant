@@ -15,6 +15,7 @@ Design notes
 * We DO strip null bytes and ANSI control sequences because these can
   poison log files or cause unexpected behaviour in terminals.
 """
+
 from __future__ import annotations
 
 import json
@@ -64,9 +65,25 @@ def sanitize_text_input(text: str) -> str:
     return text
 
 
-ALLOWED_LANGUAGES={
-  "python","javascript","java","cpp","c","php","rust","kotlin","txt","bash","html","csharp","go","swift","ruby","css",
+ALLOWED_LANGUAGES = {
+    "python",
+    "javascript",
+    "java",
+    "cpp",
+    "c",
+    "php",
+    "rust",
+    "kotlin",
+    "txt",
+    "bash",
+    "html",
+    "csharp",
+    "go",
+    "swift",
+    "ruby",
+    "css",
 }
+
 
 def sanitize_language_hint(language: str | None) -> str | None:
     """
@@ -86,8 +103,16 @@ def sanitize_language_hint(language: str | None) -> str | None:
 
     # Step 3: Define allowlist
     ALLOWED_LANGUAGES = {
-        "python", "javascript", "java", "cpp", "c++",
-        "rust", "php", "kotlin", "typescript", "ts"
+        "python",
+        "javascript",
+        "java",
+        "cpp",
+        "c++",
+        "rust",
+        "php",
+        "kotlin",
+        "typescript",
+        "ts",
     }
 
     # Step 4: Validate
